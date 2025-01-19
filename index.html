@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Text Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 500px;
+        }
+        textarea {
+            width: 100%;
+            margin-top: 10px;
+            height: 100px;
+            resize: none;
+            padding: 10px;
+            font-size: 1em;
+        }
+        button, select {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quick Text Generator</h1>
+        <label for="textType">Select Text Type:</label>
+        <select id="textType">
+            <option value="lorem">Placeholder Text (Lorem Ipsum)</option>
+            <option value="email">Email Template</option>
+            <option value="tweet">Tweet</option>
+            <option value="quote">Motivational Quote</option>
+        </select>
+        <label for="length">Adjust Length:</label>
+        <input type="number" id="length" min="1" placeholder="Enter length (optional)">
+        <button id="generateBtn">Generate</button>
+        <textarea id="output" readonly></textarea>
+        <button id="copyBtn">Copy to Clipboard</button>
+    </div>
+    <script>
+        const textSamples = {
+            lorem: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            email: "Dear [Name],\n\nThank you for reaching out. We will get back to you shortly.\n\nBest regards,\n[Your Name]",
+            tweet: "Just a friendly reminder to stay positive and keep going! #Motivation",
+            quote: "The only limit to our realization of tomorrow is our doubts of today. - FDR"
+        };
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const textType = document.getElementById('textType').value;
+            const length = parseInt(document.getElementById('length').value) || 1;
+
+            let generatedText = textSamples[textType];
+            if (length > 1 && textType === 'lorem') {
+                generatedText = Array(length).fill(textSamples[textType]).join(' ');
+            }
+
+            document.getElementById('output').value = generatedText;
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+            alert('Text copied to clipboard!');
+        });
+    </script>
+</body>
+</html>
